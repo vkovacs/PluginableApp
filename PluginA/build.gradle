@@ -18,3 +18,10 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+task copyJar(type: Copy) {
+    from 'build/libs/PluginA-1.0-SNAPSHOT.jar'
+    into '../build/libs/plugin'
+}
+
+tasks.getByName("build").dependsOn("copyJar")
