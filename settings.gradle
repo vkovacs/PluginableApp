@@ -1,0 +1,4 @@
+rootProject.name = 'PluginableApp'
+include 'PluginA'
+include 'PluginB'
+
