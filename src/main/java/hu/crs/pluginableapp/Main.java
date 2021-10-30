@@ -7,14 +7,20 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.Objects;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class Main {
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) {
         var file = new File(".\\build\\libs");
         File[] jars = file.listFiles();
-        Arrays.stream(jars[0].listFiles())
+
+        if (jars == null || jars.length == 0) {
+            throw new IllegalArgumentException();
+        }
+
+        Arrays.stream(Objects.requireNonNull(jars[0].listFiles()))
                 .map(jar -> {
                     try {
                         return loadJar(jar.getAbsolutePath().replace(".\\", ""));
@@ -22,6 +28,7 @@ public class Main {
                         throw new RuntimeException();
                     }
                 })
+                .filter(Objects::nonNull)
                 .forEach(plugin -> System.out.println(plugin.result()));
     }
 
